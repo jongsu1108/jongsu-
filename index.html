@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Poster Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #game {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <h1>영화 제목 맞추기 게임</h1>
+        <div id="poster">
+            <img src="" alt="Movie Poster 1">
+        </div>
+        <input type="text" id="guess" placeholder="Enter your guess">
+        <button onclick="checkGuess()">Submit Guess</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        const movies = [
+            { poster: "poster1.jpg", title: "기생충" },
+            { poster: "poster6.jpg", title: "오펜하이머" },
+            { poster: "poster3.png", title: "쇼생크탈출" },
+            { poster: "poster4.jpg", title: "타이타닉" },
+            { poster: "poster5.jpg", title: "어바웃타임" }
+        ];
+
+        let currentMovieIndex = 0;
+
+        function displayNextPoster() {
+            document.getElementById("poster").innerHTML = `<img src="${movies[currentMovieIndex].poster}" alt="Movie Poster ${currentMovieIndex + 1}">`;
+            document.getElementById("result").innerText = "";
+            document.getElementById("guess").value = "";
+        }
+
+        function checkGuess() {
+            const guess = document.getElementById("guess").value.trim().toLowerCase();
+            const correctTitle = movies[currentMovieIndex].title.toLowerCase();
+            if (guess === correctTitle) {
+                document.getElementById("result").innerText = "정답!";
+                currentMovieIndex++;
+                if (currentMovieIndex < movies.length) {
+                    setTimeout(displayNextPoster, 1000); // 1초 뒤에 다음 문제 보여주기
+                } else {
+                    document.getElementById("result").innerText = "축하합니다! 맞추는데 성공하셨습니다!";
+                }
+            } else {
+                document.getElementById("result").innerText = "틀렸습니다.";
+            }
+        }
+
+        window.onload = function() {
+            displayNextPoster();
+        };
+    </script>
+</body>
+</html>
+
